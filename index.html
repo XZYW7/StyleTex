@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="StyleTex: Style Image-Guided Texture Generation for 3D Models">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StyleTex</title>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']]
+      }
+    };
+    </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">StyleTex: Style Image-Guided Texture Generation for 3D Models</h1>
+          <TODO>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://xzyw7.github.io/post/about/">Zhiyu Xie</a><sup>1*</sup>,</span>
+            <span class="author-block">
+              <a href="https://zzzyuqing.github.io/">Yuqing Zhang</a><sup>1*</sup>,</span>
+            <span class="author-block">
+              <a href="https://yuyujunjun.github.io/">Xiangjun Tang</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://onethousandwu.com/">Yiqian Wu</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://dh-cang.github.io/about/">Dehan Chen</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="">Gongsheng Li</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="http://www.cad.zju.edu.cn/home/jin/">Xiaogang Jin</a><sup>1†</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+                <sup>1</sup>State Key Lab of CAD&CG, Zhejiang University &nbsp;&nbsp;
+            <span class="author-block">
+                <sup>2</sup>Zhejiang University</span>
+            <br>
+            <span class="author-block">
+                <sup>*</sup>The first two authors contribute equally. &nbsp;&nbsp;
+            <span class="author-block">
+                <sup>†</sup>Corresponding authors. &nbsp;&nbsp;
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2411.00399"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link.
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (coming soon)</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <!-- <div class="hero-body"> -->
+        <img class="thumbnail" src="./static/images/teaser.png" style="width:100%">
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">StyleTex</span> 
+        utilizes the untextured mesh, a single reference image, 
+        and a text prompt describing the mesh and desired style as inputs 
+        to generate a stylized texture.
+      </h2>
+    <!-- </div> -->
+   
+  </div>
+</section>
+
+<!-- Abstract -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <!-- <hr style="height:2px;background-color: #d5d5d5;"> -->
+        <h2 class="title is-3">Abstract</h2>
+    
+        <div class="content has-text-justified">
+          <p style="font-size: 0.99rem;">
+                Style-guided texture generation aims to generate a texture that is harmonious with both the style of the reference image
+                and the geometry of the input mesh, given a reference style image and a 3D mesh with its text description. Although
+                diffusion-based 3D texture generation methods, such as distillation sampling, have numerous promising applications in
+                stylized games and films, it requires addressing two challenges: 1) decouple style and content completely from the
+                reference image for 3D models, and 2) align the generated texture with the color tone, style of the reference image, and
+                the given text prompt. 
+            </p>
+            <p style="font-size: 0.99rem;">
+                To this end, we introduce StyleTex, an innovative diffusion-model-based framework for creating
+                stylized textures for 3D models. Our key insight is to decouple style information from the reference image while
+                disregarding content in diffusion-based distillation sampling. Specifically, given a reference image, we first decompose
+                its style feature from the image CLIP embedding by subtracting the embedding's orthogonal projection in the direction of
+                the content feature, which is represented by a text CLIP embedding. Our novel approach to disentangling the reference
+                image's style and content information allows us to generate distinct style and content features. We then inject the
+                style feature into the cross-attention mechanism to incorporate it into the generation process, while utilizing the
+                content feature as a negative prompt to further dissociate content information. Finally, we incorporate these strategies
+                into StyleTex to obtain stylized textures. We utilize Interval Score Matching to address over-smoothness and
+                over-saturation, in combination with a geometry-aware ControlNet that ensures consistent geometry throughout the
+                generative process. 
+            </p>
+            <p style="font-size: 0.99rem;">      
+                The resulting textures generated by StyleTex retain the style of the reference image, while also
+                aligning with the text prompts and intrinsic details of the given 3D mesh. Quantitative and qualitative experiments show
+                that our method outperforms existing baseline methods by a significant margin.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video" style="background: #f18a83" >
+          <iframe src="./static/videos/video.mp4"
+                  frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+    <!--/ Paper video. -->
+  </div>
+</section>
+<!--/ Abstract. -->
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered">
+
+      <!-- Pipeline. -->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Pipeline</h2>
+
+          <image src="./static/images/pipeline.png" style="width:100%">
+          <p>
+            <span class="dnerf">StyleTex</span>'s inputs include a reference style image $I_{ref}$, a text prompt $y$, and an untextured 3D mesh $\mathcal{M}$.
+            During training, we utilize our innovative ODCR method to extract a content-unrelated style feature $f_s^{ref}$, from the reference image. The style feature and text embeddings are fed into the Unet to guide the optimization of the texture field.
+            During inference, texture maps can be sampled from the texture field and directly employed in downstream game or film production, enabling the creation of stylized digital environments.
+          </p>
+        </div>
+      </div>
+      <!--/ Pipeline. -->
+
+    </div>
+    <div class="columns is-centered">
+
+      <!-- Comparison. -->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Comparison</h2>
+          <video id="comparison-video"
+                 controls
+                 muted
+                 preload
+                 playsinline
+                 autoplay
+                 loop
+                 width="100%">
+            <source src="./static/videos/comparison.mp4"
+                    type="video/mp4">
+
+        </div>
+      </div>
+      <!--/ Comparison. -->
+
+    </div>
+
+    <!-- Animation.-->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">More results</h2>
+
+        <!-- Re-rendering.-->
+        <h3 class="title is-4">Re-rendering the input video</h3>
+        <div class="content has-text-justified">
+          <p>
+            Using the textures generated by <span class="dnerf">StyleTex</span>, you can create a variety of imaginative
+            stylized scenes in the rendering engine.
+          </p>
+        </div>
+        <div class="content has-text-centered" style="display: flex; justify-content: center;">
+          <video id="replay-video"
+                 controls
+                 muted
+                 preload
+                 playsinline
+                 autoplay
+                 loop
+                 width="50%" >
+            <source src="./static/videos/fruit.mp4"
+                    type="video/mp4">
+          </video>
+          <video 
+                id="replay-video"
+                 controls
+                 muted
+                 preload
+                 playsinline
+                 autoplay
+                 loop
+                 width="50%">
+            <source src="./static/videos/indoor.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="content has-text-centered" >
+          <video 
+          id="replay-video"
+           controls
+           muted
+           preload
+           playsinline
+           autoplay
+           loop
+           width="100%">
+          <source src="./static/videos/intro_video.mp4"
+              type="video/mp4">
+        </video>   
+        </div>
+
+        <!--/ Re-rendering.-->
+
+      </div>
+    </div>
+    <!--/ Animation. -->
+
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>
+      @article{10.1145/3687931,
+        author = {Xie, Zhiyu and Zhang, Yuqing and Tang, Xiangjun and Wu, Yiqian and Chen, Dehan and Li, Gongsheng and Jin, Xiaogang},
+        title = {StyleTex: Style Image-Guided Texture Generation for 3D Models},
+        year = {2024},
+        issue_date = {December 2024},
+        publisher = {Association for Computing Machinery},
+        volume = {43},
+        number = {6},
+        issn = {0730-0301},
+        url = {https://doi.org/10.1145/3687931},
+        doi = {10.1145/3687931},
+        journal = {ACM Trans. Graph.},
+        month = nov,
+        articleno = {212},
+        numpages = {14},
+        }
+</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
