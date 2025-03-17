@@ -338,7 +338,6 @@ class StableDiffusionStyleGuidance(BaseObject):
                 pretrained_model_name_or_path_or_dict,
                 weights_name=weight_name,
                 cache_dir=cache_dir,
-                local_files_only=True,
                 subfolder=subfolder,
                 force_download = None,
                 proxies=None,
@@ -381,7 +380,6 @@ class StableDiffusionStyleGuidance(BaseObject):
                     self.preprocessor_normal = NormalBaeDetector.from_pretrained(
                         "lllyasviel/Annotators",
                         cache_dir=self.cfg.cache_dir,
-                        local_files_only=True
                     )
                     self.preprocessor_normal.model.to(self.device)
                 elif control_type == 'canny':
@@ -396,7 +394,6 @@ class StableDiffusionStyleGuidance(BaseObject):
                     self.preprocessor_hed = HEDdetector.from_pretrained(
                         'lllyasviel/Annotators',
                         cache_dir=self.cfg.cache_dir,
-                        local_files_only=True
                         )
                 elif control_type == 'p2p':
                     controlnet_name_or_path: str = "lllyasviel/control_v11e_sd15_ip2p"
@@ -407,7 +404,6 @@ class StableDiffusionStyleGuidance(BaseObject):
                     controlnet_name_or_path,
                     torch_dtype=self.weights_dtype,
                     cache_dir=self.cfg.cache_dir,
-                    local_files_only=True
                 )
 
                 multi_controlnet_processor.append(controlnet)
@@ -420,7 +416,6 @@ class StableDiffusionStyleGuidance(BaseObject):
                 "requires_safety_checker": False,
                 "torch_dtype": self.weights_dtype,
                 "cache_dir": self.cfg.cache_dir,
-                "local_files_only": True,
             }
 
     
@@ -439,7 +434,6 @@ class StableDiffusionStyleGuidance(BaseObject):
                 "requires_safety_checker": False,
                 "torch_dtype": self.weights_dtype,
                 "cache_dir": self.cfg.cache_dir,
-                "local_files_only": True,
             }
             self.pipe = StableDiffusionPipeline.from_pretrained(
                 self.cfg.pretrained_model_name_or_path,
@@ -454,8 +448,6 @@ class StableDiffusionStyleGuidance(BaseObject):
                 "requires_safety_checker": False,
                 "torch_dtype": self.weights_dtype,
                 "cache_dir": self.cfg.cache_dir,
-                "local_files_only": True,
-                
             }
             self.pipe = StableDiffusionPipeline.from_pretrained(
                 self.cfg.pretrained_model_name_or_path,
@@ -471,7 +463,7 @@ class StableDiffusionStyleGuidance(BaseObject):
                 self.set_ips_layer(unet=self.pipe.unet,controlnet=self.pipe.controlnet if self.cfg.use_controlnet else None
                     ,target_blocks=['block'])
             
-            self.image_encoder = CLIPVisionModelWithProjection.from_pretrained('h94/IP-Adapter',local_files_only=True,subfolder="models/image_encoder",cache_dir =self.cfg.cache_dir).to(
+            self.image_encoder = CLIPVisionModelWithProjection.from_pretrained('h94/IP-Adapter',subfolder="models/image_encoder",cache_dir =self.cfg.cache_dir).to(
                 self.device, dtype=torch.float16
             )
             self.clip_image_processor = CLIPImageProcessor()
@@ -488,7 +480,6 @@ class StableDiffusionStyleGuidance(BaseObject):
                 subfolder="scheduler",
                 torch_dtype=self.weights_dtype,
                 cache_dir=self.cfg.cache_dir,
-                local_files_only=True,
                 )
         self.sche_func = ddim_step
         if self.cfg.enable_memory_efficient_attention:
@@ -549,9 +540,9 @@ class StableDiffusionStyleGuidance(BaseObject):
                 if self.cfg.use_negsub:
                     from transformers import CLIPTextModelWithProjection, CLIPTokenizer,logging
                     logging.set_verbosity_error()
-                    text_encoder = CLIPTextModelWithProjection.from_pretrained('laion/CLIP-ViT-H-14-laion2B-s32B-b79K',cache_dir=self.cfg.cache_dir,use_safetensors=False,local_files_only=True).to(self.device, 
+                    text_encoder = CLIPTextModelWithProjection.from_pretrained('laion/CLIP-ViT-H-14-laion2B-s32B-b79K',cache_dir=self.cfg.cache_dir,use_safetensors=False).to(self.device, 
                             dtype=self.weights_dtype)
-                    tokenizer = CLIPTokenizer.from_pretrained('laion/CLIP-ViT-H-14-laion2B-s32B-b79K',cache_dir=self.cfg.cache_dir,local_files_only=True)
+                    tokenizer = CLIPTokenizer.from_pretrained('laion/CLIP-ViT-H-14-laion2B-s32B-b79K',cache_dir=self.cfg.cache_dir)
 
                     tokens = tokenizer([self.cfg.ref_content_prompt], return_tensors='pt').to(text_encoder.device)
                     neg_content_emb = text_encoder(**tokens).text_embeds

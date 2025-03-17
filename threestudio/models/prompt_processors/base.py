@@ -502,12 +502,10 @@ class PromptProcessor(BaseObject):
         tokenizer = AutoTokenizer.from_pretrained(
             self.cfg.pretrained_model_name_or_path_prompt_debiasing,
             cache_dir=self.cfg.pretrained_model_cache_dir,
-            local_files_only=True
         )
         model = BertForMaskedLM.from_pretrained(
             self.cfg.pretrained_model_name_or_path_prompt_debiasing,
             cache_dir=self.cfg.pretrained_model_cache_dir,
-            local_files_only=True
         )
 
         views = [d.name for d in self.directions]
