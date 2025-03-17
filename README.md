@@ -62,7 +62,7 @@ We introduce StyleTex, an innovative diffusion-model-based framework for creatin
    python launch.py --config configs/styletex.yaml --train --gradio --gpu 0 \
      system.prompt_processor.prompt="a Leather Recliner in illustration style of Milton Glaser animals" \
      system.guidance.ref_img_path="load/style_images/woman_style_of_Milton_Glaser.png" \
-     system.guidance.ref_content_prompt="a woman face" 
+     system.guidance.ref_content_prompt="a woman face" \
      system.geometry.shape_init=mesh:load/shapes/sofa.obj \
      trainer.max_steps=2500 \
      system.geometry.shape_init_params=1.0
