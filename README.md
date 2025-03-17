@@ -56,7 +56,7 @@ We introduce StyleTex, an innovative diffusion-model-based framework for creatin
      system.guidance.ref_content_prompt="${image_prompt_c}" \ # Content prompt from reference image
      system.geometry.shape_init=mesh:${obj_path} \ # Path to mesh model file
      trainer.max_steps=2500 \
-     system.geometry.shape_init_params=1.0
+     system.geometry.shape_init_params=1.0 # Mesh scale factor
    
    # Example
    python launch.py --config configs/styletex.yaml --train --gradio --gpu 0 \
