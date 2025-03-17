@@ -54,7 +54,7 @@ system:
     width: 512
     height: 512
     pretrained_model_name_or_path: "runwayml/stable-diffusion-v1-5"
-    cache_dir: "../../../model/SD"
+    cache_dir: "your_path_to_SD_models"
     control_types: ['self-normal','depth']
     cond_scale: 1.0
     uncond_scale: [0, -1.0, -0.5, 3000]
@@ -75,7 +75,7 @@ system:
   prompt_processor_type: "stable-diffusion-prompt-processor"
   prompt_processor:
     pretrained_model_name_or_path: "runwayml/stable-diffusion-v1-5"
-    pretrained_model_cache_dir: "../../../model/SD"
+    pretrained_model_cache_dir: "your_path_to_SD_models"
     prompt: ???
     negative_prompt: "oversaturated color, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, poorly drawn eyes, low contrast, underexposed, overexposed, bright blue spots, glowing blue patches, intense blue highlights, Unrealistic highlights, Artificial shininess, Exaggerated light reflections, Unnatural facial expression, Inauthentic eye contact, low resolution"
 
