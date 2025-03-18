@@ -339,6 +339,7 @@ class StableDiffusionStyleGuidance(BaseObject):
                 weights_name=weight_name,
                 cache_dir=cache_dir,
                 subfolder=subfolder,
+                local_files_only = False,
                 force_download = None,
                 proxies=None,
                 resume_download=None,
